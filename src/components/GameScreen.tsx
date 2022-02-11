@@ -6,6 +6,7 @@ import { actionCreators } from "../redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Keyboard from "./Keyboard";
 
 function findUnique(str: string) {
@@ -34,12 +35,23 @@ function checkEquality(str1: string, str2: string) {
 const GameScreen = () => {
   const [phraseColor, setPhraseColor] = useState("#000");
   const [win, setWin] = useState(false);
+  const [reset, setReset] = useState(false);
   const {
     stats: { attemps },
     game: { selectedLetters, rightLetters, phrase },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
-  const { savePhrase } = bindActionCreators(actionCreators, dispatch);
+  const { savePhrase, setSelectedLetters, setRightLetters, setAttemps } =
+    bindActionCreators(actionCreators, dispatch);
+
+  const handleNewQuote = () => {
+    setWin(false);
+    setSelectedLetters("");
+    setRightLetters("");
+    setReset(!reset);
+    setPhraseColor("#000");
+    setAttemps(0);
+  };
 
   useEffect(() => {
     try {
@@ -49,11 +61,7 @@ const GameScreen = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
-  console.log(
-    "HINT: ",
-    findUnique(phrase?.content?.toLowerCase()).split("").sort().join("")
-  );
+  }, [reset]);
 
   useEffect(() => {
     if (attemps > 5) return setPhraseColor("#f00");
@@ -73,6 +81,14 @@ const GameScreen = () => {
 
   return (
     <>
+      <Button
+        variant="outlined"
+        sx={{ position: "absolute", top: "30%", right: "5%" }}
+        color={attemps <= 5 ? "inherit" : "error"}
+        onClick={handleNewQuote}
+      >
+        {attemps <= 5 ? "New quote" : "Try again"}
+      </Button>
       <Typography variant="h6" gutterBottom>
         The Hangman Game
       </Typography>

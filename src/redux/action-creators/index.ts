@@ -2,10 +2,11 @@ import { Dispatch } from "react";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
 
-export const increaseAttemps = () => {
+export const setAttemps = (value: number) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
-      type: ActionType.INCREASE_ATTEMPS,
+      type: ActionType.SET_ATTEMPS,
+      payload: value,
     });
   };
 };

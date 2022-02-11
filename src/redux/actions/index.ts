@@ -1,7 +1,8 @@
 import { ActionType } from "../action-types/index";
 
 type StatsActions = {
-  type: ActionType.INCREASE_ATTEMPS;
+  type: ActionType.SET_ATTEMPS;
+  payload: number;
 };
 
 type UserActions = {

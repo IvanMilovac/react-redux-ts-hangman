@@ -20,6 +20,7 @@ function App() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          position: "relative",
         }}
         elevation={4}
       >

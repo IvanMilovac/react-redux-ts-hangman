@@ -17,7 +17,7 @@ const Keyboard = ({ win }: IProps) => {
   } = useSelector((state: RootState) => state);
 
   const dispatch = useDispatch();
-  const { increaseAttemps, setSelectedLetters, setRightLetters } =
+  const { setAttemps, setSelectedLetters, setRightLetters } =
     bindActionCreators(actionCreators, dispatch);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -27,7 +27,7 @@ const Keyboard = ({ win }: IProps) => {
 
     if (name === "key" && !selectedLetters.includes(innerText)) {
       setSelectedLetters(selectedLetters + innerText);
-      if (content?.toUpperCase()?.indexOf(innerText) === -1) increaseAttemps();
+      if (content?.toUpperCase()?.indexOf(innerText) === -1) setAttemps(attemps+1);
     }
     if (content.toUpperCase().includes(innerText))
       setRightLetters(rightLetters + innerText);

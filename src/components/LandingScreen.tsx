@@ -40,7 +40,7 @@ const Landing = () => {
           value={inputName}
           onChange={(e) => setInputName(e.target.value)}
         />
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={!inputName}>
           Start Game
         </Button>
       </form>

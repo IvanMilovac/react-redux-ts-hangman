@@ -14,8 +14,8 @@ const statsReducer = (
   action: Action
 ): IStatsState => {
   switch (action.type) {
-    case ActionType.INCREASE_ATTEMPS:
-      return { ...state, attemps: state.attemps + 1 };
+    case ActionType.SET_ATTEMPS:
+      return { ...state, attemps: action.payload };
     default:
       return state;
   }
