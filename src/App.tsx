@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from "react-redux";
+import "./App.css";
+import { RootState } from "./redux/reducers";
+import Landing from "./components/LandingScreen";
+import Card from "@mui/material/Card";
+import GameScreen from "./components/GameScreen";
 
 function App() {
+  const {
+    user: { name },
+  } = useSelector((state: RootState) => state);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: "600px",
+          padding: "1rem 2rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        elevation={4}
+      >
+        {!name ? <Landing /> : <GameScreen />}
+      </Card>
     </div>
   );
 }
