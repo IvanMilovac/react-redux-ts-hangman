@@ -7,7 +7,7 @@ interface IProps {
 
 const Hangman: FC<IProps> = ({ win, attemps }) => {
   return (
-    <svg width="200px"  version="1.1" viewBox="0 0 45.731 69.846">
+    <svg width="180px"  version="1.1" viewBox="0 0 45.731 69.846">
       <g transform="translate(-8.5071 -4.3935)">
         <g fill="none">
           <g stroke="#000">
