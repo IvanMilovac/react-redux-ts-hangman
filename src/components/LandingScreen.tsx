@@ -5,15 +5,17 @@ import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const [inputName, setInputName] = useState("");
   const dispatch = useDispatch();
   const { setName } = bindActionCreators(actionCreators, dispatch);
-
+  const navigate = useNavigate();
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setName(inputName);
+    navigate("/game");
   };
 
   return (

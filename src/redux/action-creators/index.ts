@@ -11,6 +11,15 @@ export const setAttemps = (value: number) => {
   };
 };
 
+export const setFinalResult = (final: IFinalResult) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_GAME_RESULT,
+      payload: final,
+    });
+  };
+};
+
 export const setName = (name: string) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
@@ -43,6 +52,25 @@ export const savePhrase = (phrase: PhraseType) => {
     dispatch({
       type: ActionType.SAVE_PHRASE,
       payload: phrase,
+    });
+  };
+};
+
+export const resetGame = () => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.RESET_APP_GAME,
+    });
+    dispatch({
+      type: ActionType.RESET_APP_STAT,
+    });
+  };
+};
+
+export const resetUser = () => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.RESET_APP_USER,
     });
   };
 };

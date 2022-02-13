@@ -9,16 +9,18 @@ const initialState = {
   name: "",
 };
 
-const statsReducer = (
+const userReducer = (
   state: IUserState = initialState,
   action: Action
 ): IUserState => {
   switch (action.type) {
     case ActionType.SET_NAME:
       return { name: action.payload };
+    case ActionType.RESET_APP_USER:
+      return initialState;
     default:
       return state;
   }
 };
 
-export default statsReducer;
+export default userReducer;

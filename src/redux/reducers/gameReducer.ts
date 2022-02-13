@@ -13,7 +13,7 @@ const initialState = {
   phrase: {} as PhraseType,
 };
 
-const statsReducer = (
+const gameReducer = (
   state: IGameState = initialState,
   action: Action
 ): IGameState => {
@@ -24,9 +24,11 @@ const statsReducer = (
       return { ...state, rightLetters: action.payload };
     case ActionType.SAVE_PHRASE:
       return { ...state, phrase: action.payload };
+    case ActionType.RESET_APP_GAME:
+      return initialState;
     default:
       return state;
   }
 };
 
-export default statsReducer;
+export default gameReducer;

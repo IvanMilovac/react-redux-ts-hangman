@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Keyboard from "./Keyboard";
 import { findUnique, checkEquality, msToMS } from "../utils";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 let startTime: number, endTime: number;
 let intervalId: ReturnType<typeof setInterval>;
@@ -18,22 +20,27 @@ const GameScreen = () => {
   const [phraseColor, setPhraseColor] = useState("#000");
   const [win, setWin] = useState(false);
   const [reset, setReset] = useState(false);
+  const navigate = useNavigate();
   const {
     stats: { attemps },
     user: { name },
     game: { selectedLetters, rightLetters, phrase },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
-  const { savePhrase, setSelectedLetters, setRightLetters, setAttemps } =
+  const { savePhrase, resetGame, resetUser, setFinalResult } =
     bindActionCreators(actionCreators, dispatch);
 
   const handleNewQuote = () => {
+    resetGame();
     setWin(false);
-    setSelectedLetters("");
-    setRightLetters("");
     setReset(!reset);
     setPhraseColor("#000");
-    setAttemps(0);
+  };
+
+  const handleUserChange = () => {
+    clearInterval(intervalId);
+    resetGame();
+    resetUser();
   };
 
   useEffect(() => {
@@ -64,8 +71,8 @@ const GameScreen = () => {
     );
 
     if (isEqual) {
-      setWin(true);
       clearInterval(intervalId);
+      setWin(true);
       const body = {
         quoteId: phrase._id,
         length: phrase.length,
@@ -74,6 +81,7 @@ const GameScreen = () => {
         errors: selectedLetters.length - rightLetters.length,
         duration: endTime - startTime,
       };
+      setFinalResult(body);
       axios
         .post(
           "https://my-json-server.typicode.com/stanko-ingemark/hang_the_wise_man_frontend_task/highscores",
@@ -84,33 +92,20 @@ const GameScreen = () => {
             },
           }
         )
-        .then((data) => console.log(data));
+        .catch((err) => console.error(err));
       return setPhraseColor("#0a0");
     }
-  }, [selectedLetters]);
+  }, [selectedLetters, attemps, name, phrase, rightLetters]);
 
   var regexp = new RegExp("(?![" + selectedLetters + "])[a-z]", "gi");
 
   return (
     <>
-      <Button
-        variant="outlined"
-        sx={{
-          position: "absolute",
-          top: "30%",
-          right: "5%",
-          color: phraseColor,
-          borderColor: phraseColor,
-        }}
-        onClick={handleNewQuote}
-      >
-        {attemps <= 5 ? "New quote" : "Try again"}
-      </Button>
       <Typography
         variant="h6"
         sx={{
           position: "absolute",
-          top: "15%",
+          top: "10%",
           right: "5%",
           paddingInline: "1rem",
           border: "1px solid",
@@ -127,6 +122,52 @@ const GameScreen = () => {
         The Hangman Game
       </Typography>
       <Hangman attemps={attemps} win={win} />
+      <Box
+        sx={{
+          top: "30%",
+          right: "5%",
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: ".5rem",
+          paddingBlock: "1rem",
+        }}
+      >
+        <Button
+          variant="outlined"
+          tabIndex={1}
+          sx={{
+            color: phraseColor,
+            borderColor: phraseColor,
+          }}
+          onClick={handleNewQuote}
+        >
+          {attemps <= 5 ? "New quote" : "Try again"}
+        </Button>
+        <Button
+          variant="outlined"
+          tabIndex={2}
+          sx={{
+            color: phraseColor,
+            borderColor: phraseColor,
+          }}
+          onClick={handleUserChange}
+        >
+          Change user
+        </Button>
+        {win && (
+          <Button
+            variant="outlined"
+            tabIndex={3}
+            onClick={() => {
+              clearInterval(intervalId);
+              navigate("/results");
+            }}
+          >
+            See results
+          </Button>
+        )}
+      </Box>
       <Typography
         sx={{
           letterSpacing: "2px",

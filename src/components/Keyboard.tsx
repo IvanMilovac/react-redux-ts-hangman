@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import { keyboardLetters } from "../data";
 import { actionCreators } from "../redux/";
 import { bindActionCreators } from "redux";
@@ -27,14 +27,32 @@ const Keyboard = ({ win }: IProps) => {
 
     if (name === "key" && !selectedLetters.includes(innerText)) {
       setSelectedLetters(selectedLetters + innerText);
-      if (content?.toUpperCase()?.indexOf(innerText) === -1) setAttemps(attemps+1);
+      if (content?.toUpperCase()?.indexOf(innerText) === -1)
+        setAttemps(attemps + 1);
     }
-    if (content.toUpperCase().includes(innerText))
+    if (content?.toUpperCase()?.includes(innerText))
       setRightLetters(rightLetters + innerText);
   };
 
+  const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (selectedLetters.includes(e.key.toUpperCase())) return;
+    const { content } = phrase;
+    if (keyboardLetters.includes(e.key.toUpperCase())) {
+      setSelectedLetters(selectedLetters + e.key.toUpperCase());
+      if (content?.toUpperCase()?.indexOf(e.key.toUpperCase()) === -1)
+        setAttemps(attemps + 1);
+    }
+    if (content?.toUpperCase()?.includes(e.key.toUpperCase()))
+      setRightLetters(rightLetters + e.key.toUpperCase());
+  };
+
   return (
-    <div className="keyboard" onClick={handleClick}>
+    <div
+      className="keyboard"
+      onClick={handleClick}
+      onKeyDown={handleKey}
+      tabIndex={0}
+    >
       {keyboardLetters.map((item) => (
         <Button
           variant="contained"

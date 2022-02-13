@@ -31,16 +31,26 @@ export function msToMS(duration: number) {
   return min + ":" + sec;
 }
 
+export function randomStringGenerator(length: number) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let randomStr = "";
 
-export function randomStringGenerator(length: number){
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let randomStr = "";
+  for (let i = 0; i < length; i++) {
+    const randomNum = Math.floor(Math.random() * characters.length);
+    randomStr += characters[randomNum];
+  }
 
-    for (let i = 0; i < length; i++) {
-      const randomNum = Math.floor(Math.random() * characters.length);
-      randomStr += characters[randomNum];
-    }
-
-    console.log(randomStr);
+  console.log(randomStr);
 }
+export function compareUserResult(a: IRow, b: IRow) {
+  if (a.score===undefined || b.score===undefined) return 0;
+  if (a.score < b.score) {
+    return 1;
+  }
+  if (a.score > b.score) {
+    return -1;
+  }
+  return 0;
+}
+

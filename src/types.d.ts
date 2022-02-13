@@ -8,3 +8,22 @@ type PhraseType = {
   dateAdded: string;
   dateModified: string;
 };
+
+interface IRow {
+  quoteId: string;
+  userName: string;
+  length: number;
+  score?: number;
+  uniqueCharacters: number;
+  errors: number;
+  duration: number;
+}
+
+interface IFinalResult {
+  quoteId: string;
+  length: number;
+  uniqueCharacters: number;
+  userName: string;
+  errors: number;
+  duration: number;
+}
