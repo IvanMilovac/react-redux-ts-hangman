@@ -1,16 +1,18 @@
-import Hangman from "./Hangman";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/reducers";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "../redux";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Keyboard from "./Keyboard";
-import { findUnique, checkEquality, msToMS } from "../utils";
-import { Box } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { Box, Typography, Button } from "@mui/material";
+
+import { RootState } from "../redux/reducers";
+import { actionCreators } from "../redux";
+
+import Hangman from "./Hangman";
+import Keyboard from "./Keyboard";
+
+import { findUnique, checkEquality, msToMS } from "../utils";
 
 let startTime: number, endTime: number;
 let intervalId: ReturnType<typeof setInterval>;
@@ -47,7 +49,7 @@ const GameScreen = () => {
     setElapsedTime("00:00");
     try {
       axios
-        .get("http://api.quotable.io/random")
+        .get("https://api.quotable.io/random")
         .then((data) => savePhrase(data.data));
       startTime = new Date().getTime();
       intervalId = setInterval(() => {

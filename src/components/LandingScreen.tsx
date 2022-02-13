@@ -1,11 +1,11 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../redux";
-import { useState } from "react";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+
+import { Typography, TextField, Button } from "@mui/material";
+
+import { actionCreators } from "../redux";
 
 const Landing = () => {
   const [inputName, setInputName] = useState("");

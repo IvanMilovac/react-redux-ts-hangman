@@ -1,5 +1,8 @@
 <h1>Hangman game</h1>
 
+<h2>Live version of game: https://hangman-react-game.web.app/</h2>
+
+
 <h3>Installation and running</h3>
 Follow this instruction for installation of this game:
 <ul>

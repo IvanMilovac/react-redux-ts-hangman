@@ -1,14 +1,17 @@
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../redux";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Box, Typography } from "@mui/material";
-import Table from "./Table";
+
+import { Box, Typography, Button } from "@mui/material";
+
+import { actionCreators } from "../redux";
 import { RootState } from "../redux/reducers";
-import { compareUserResult } from "../utils";
+
+import Table from "./Table";
+
+import { compareUserResult, calculateScore } from "../utils";
 
 interface IApiScore {
   _id: number;
@@ -19,26 +22,6 @@ interface IApiScore {
   errors: number;
   duration: number;
 }
-
-const calculateScore = (user: IRow, allResult: IRow[]) => {
-  let maxUC = 0,
-    maxL = 0,
-    minD = 1000000000;
-  let { errors, length, uniqueCharacters, duration } = user;
-  allResult.map((item) => {
-    let { uniqueCharacters, length, duration } = item;
-    if (uniqueCharacters > maxUC) maxUC = uniqueCharacters;
-    if (length > maxL) maxL = length;
-    if (duration < minD) minD = duration;
-  });
-  const score =
-    100 *
-    (1 / (1 + errors)) *
-    (uniqueCharacters / maxUC) *
-    (length / maxL) *
-    (minD / duration);
-  return parseFloat(score.toFixed(2));
-};
 
 const ResultScreen = () => {
   const [resultData, setResultData] = useState([] as IRow[]);
@@ -94,7 +77,9 @@ const ResultScreen = () => {
           padding: "1rem",
         }}
       >
-        <Typography variant="h4" sx={{textAlign: "center"}}>Score table</Typography>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
+          Score table
+        </Typography>
         <Table
           columns={["User", "Score"]}
           rows={resultData.sort(compareUserResult)}

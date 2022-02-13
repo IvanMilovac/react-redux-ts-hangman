@@ -44,7 +44,7 @@ export function randomStringGenerator(length: number) {
   console.log(randomStr);
 }
 export function compareUserResult(a: IRow, b: IRow) {
-  if (a.score===undefined || b.score===undefined) return 0;
+  if (a.score === undefined || b.score === undefined) return 0;
   if (a.score < b.score) {
     return 1;
   }
@@ -54,3 +54,22 @@ export function compareUserResult(a: IRow, b: IRow) {
   return 0;
 }
 
+export function calculateScore(user: IRow, allResult: IRow[]) {
+  let maxUC = 0,
+    maxL = 0,
+    minD = 1000000000;
+  let { errors, length, uniqueCharacters, duration } = user;
+  allResult.forEach((item) => {
+    let { uniqueCharacters, length, duration } = item;
+    if (uniqueCharacters > maxUC) maxUC = uniqueCharacters;
+    if (length > maxL) maxL = length;
+    if (duration < minD) minD = duration;
+  });
+  const score =
+    100 *
+    (1 / (1 + errors)) *
+    (uniqueCharacters / maxUC) *
+    (length / maxL) *
+    (minD / duration);
+  return parseFloat(score.toFixed(2));
+}
