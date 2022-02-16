@@ -1,6 +1,9 @@
+import axios from "axios";
 import { Dispatch } from "react";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
+
+//STATS - action creators
 
 export const setAttemps = (value: number) => {
   return (dispatch: Dispatch<Action>) => {
@@ -11,7 +14,25 @@ export const setAttemps = (value: number) => {
   };
 };
 
-export const setFinalResult = (final: IFinalResult) => {
+export const setElapsedTime = (elapsedTime: number) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_ELAPSED_TIME,
+      payload: elapsedTime,
+    });
+  };
+};
+
+export const setIntervalId = (intervalId: number) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_INTERVAL_ID,
+      payload: intervalId,
+    });
+  };
+};
+
+export const setFinalResult = (final: IData) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SET_GAME_RESULT,
@@ -20,14 +41,24 @@ export const setFinalResult = (final: IFinalResult) => {
   };
 };
 
-export const setName = (name: string) => {
+export const setReset = () => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
-      type: ActionType.SET_NAME,
-      payload: name,
+      type: ActionType.SET_RESET,
     });
   };
 };
+
+export const setWin = (win: boolean) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_WIN,
+      payload: win,
+    });
+  };
+};
+
+//GAME - action creators
 
 export const setSelectedLetters = (selectedLetters: string) => {
   return (dispatch: Dispatch<Action>) => {
@@ -63,6 +94,25 @@ export const resetGame = () => {
     });
     dispatch({
       type: ActionType.RESET_APP_STAT,
+    });
+  };
+};
+
+export const fetchNewPhrase = () => {
+  return (dispatch: Dispatch<Action>) => {
+    axios.get("https://api.quotable.io/random").then(({ data }) => {
+      dispatch({ type: ActionType.SAVE_PHRASE, payload: data });
+    });
+  };
+};
+
+// USER - action creators
+
+export const setName = (name: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_NAME,
+      payload: name,
     });
   };
 };

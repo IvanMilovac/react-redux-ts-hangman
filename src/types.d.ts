@@ -9,7 +9,7 @@ type PhraseType = {
   dateModified: string;
 };
 
-interface IRow {
+interface IData {
   quoteId: string;
   userName: string;
   length: number;

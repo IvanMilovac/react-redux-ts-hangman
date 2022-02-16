@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Box, Typography, Button } from "@mui/material";
 
-import { actionCreators } from "../redux";
-import { RootState } from "../redux/reducers";
+import useStoreSelector from "../hooks/useStoreSelector";
+import useStoreDispatch from "../hooks/useStoreDispatch";
 
-import Table from "./Table";
+import Table from "../components/Table";
 
-import { compareUserResult, calculateScore } from "../utils";
+import { compareUserResult, calculateScore } from "../../utils";
 
 interface IApiScore {
   _id: number;
@@ -24,13 +22,12 @@ interface IApiScore {
 }
 
 const ResultScreen = () => {
-  const [resultData, setResultData] = useState([] as IRow[]);
+  const [resultData, setResultData] = useState([] as IData[]);
   const navigate = useNavigate();
   const {
     stats: { gameResult },
-  } = useSelector((state: RootState) => state);
-  const dispatch = useDispatch();
-  const { resetGame } = bindActionCreators(actionCreators, dispatch);
+  } = useStoreSelector();
+  const { resetGame } = useStoreDispatch();
   useEffect(() => {
     const { quoteId, userName, errors, length, uniqueCharacters, duration } =
       gameResult;
@@ -39,7 +36,7 @@ const ResultScreen = () => {
         "https://my-json-server.typicode.com/stanko-ingemark/hang_the_wise_man_frontend_task/highscores"
       )
       .then(({ data }) => {
-        let array: IRow[] = [];
+        let array: IData[] = [];
         data.map((item: IApiScore) =>
           array.push({
             quoteId: item.quoteId,

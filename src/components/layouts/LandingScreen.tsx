@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
+
+import useInput from "../hooks/useInput";
+import useStoreDispatch from "../hooks/useStoreDispatch";
 
 import { Typography, TextField, Button } from "@mui/material";
 
-import { actionCreators } from "../redux";
+const LandingScreen = () => {
+  const [inputName, resetInputName, bindInputName] = useInput("");
+  const { setName } = useStoreDispatch();
 
-const Landing = () => {
-  const [inputName, setInputName] = useState("");
-  const dispatch = useDispatch();
-  const { setName } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setName(inputName);
+    resetInputName();
     navigate("/game");
   };
 
@@ -35,12 +35,12 @@ const Landing = () => {
       </Typography>
       <form onSubmit={onSubmit} className="name-form">
         <TextField
+          autoFocus
           type="text"
           variant="outlined"
           placeholder="enter your name"
           required
-          value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
+          {...bindInputName}
         />
         <Button variant="contained" type="submit" disabled={!inputName}>
           Start Game
@@ -50,4 +50,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default LandingScreen;

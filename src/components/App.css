@@ -9,7 +9,7 @@
 .App {
   width: 100vw;
   min-height: 100vh;
-  background: url("./assets/bg.png");
+  background: url("../assets/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;

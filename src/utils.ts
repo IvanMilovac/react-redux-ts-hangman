@@ -40,10 +40,9 @@ export function randomStringGenerator(length: number) {
     const randomNum = Math.floor(Math.random() * characters.length);
     randomStr += characters[randomNum];
   }
-
-  console.log(randomStr);
+  return randomStr;
 }
-export function compareUserResult(a: IRow, b: IRow) {
+export function compareUserResult(a: IData, b: IData) {
   if (a.score === undefined || b.score === undefined) return 0;
   if (a.score < b.score) {
     return 1;
@@ -54,7 +53,7 @@ export function compareUserResult(a: IRow, b: IRow) {
   return 0;
 }
 
-export function calculateScore(user: IRow, allResult: IRow[]) {
+export function calculateScore(user: IData, allResult: IData[]) {
   let maxUC = 0,
     maxL = 0,
     minD = 1000000000;

@@ -10,7 +10,22 @@ type StatsActions =
       payload: IFinalResult;
     }
   | {
+      type: ActionType.SET_ELAPSED_TIME;
+      payload: number;
+    }
+  | {
+      type: ActionType.SET_INTERVAL_ID;
+      payload: number;
+    }
+  | {
       type: ActionType.RESET_APP_STAT;
+    }
+  | {
+      type: ActionType.SET_WIN;
+      payload: boolean;
+    }
+  | {
+      type: ActionType.SET_RESET;
     };
 
 type UserActions =
@@ -27,8 +42,11 @@ type GameActions =
       type: ActionType.SAVE_SELECTED_LETTERS;
       payload: string;
     }
+  | {
+      type: ActionType.SAVE_PHRASE;
+      payload: PhraseType;
+    }
   | { type: ActionType.SAVE_RIGHT_LETTERS; payload: string }
-  | { type: ActionType.SAVE_PHRASE; payload: PhraseType }
   | {
       type: ActionType.RESET_APP_GAME;
     };

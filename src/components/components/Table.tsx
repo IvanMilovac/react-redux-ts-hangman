@@ -6,12 +6,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { v4 as uuidv4 } from "uuid";
-import { RootState } from "../redux/reducers";
+import { RootState } from "../../redux/reducers";
 import { useSelector } from "react-redux";
 
 interface IProps {
   columns: string[];
-  rows: IRow[];
+  rows: IData[];
 }
 
 const BasicTable = ({ rows, columns }: IProps) => {

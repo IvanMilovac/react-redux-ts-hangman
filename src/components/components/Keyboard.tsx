@@ -1,30 +1,22 @@
 import Button from "@mui/material/Button";
 import React, { KeyboardEvent } from "react";
-import { keyboardLetters } from "../data";
-import { actionCreators } from "../redux/";
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/reducers";
+import { keyboardLetters } from "../../data";
+import useStoreDispatch from "../hooks/useStoreDispatch";
+import useStoreSelector from "../hooks/useStoreSelector";
 
-interface IProps {
-  win: boolean;
-}
-
-const Keyboard = ({ win }: IProps) => {
+const Keyboard = () => {
   const {
     game: { phrase, selectedLetters, rightLetters },
-    stats: { attemps },
-  } = useSelector((state: RootState) => state);
+    stats: { attemps, win },
+  } = useStoreSelector();
 
-  const dispatch = useDispatch();
   const { setAttemps, setSelectedLetters, setRightLetters } =
-    bindActionCreators(actionCreators, dispatch);
+    useStoreDispatch();
 
   const handleClick = (e: React.MouseEvent) => {
     let element = e.target as HTMLButtonElement;
     let { name, innerText } = element;
     const { content } = phrase;
-
     if (name === "key" && !selectedLetters.includes(innerText)) {
       setSelectedLetters(selectedLetters + innerText);
       if (content?.toUpperCase()?.indexOf(innerText) === -1)
@@ -47,12 +39,7 @@ const Keyboard = ({ win }: IProps) => {
   };
 
   return (
-    <div
-      className="keyboard"
-      onClick={handleClick}
-      onKeyDown={handleKey}
-      tabIndex={0}
-    >
+    <div className="keyboard" onClick={handleClick} onKeyDown={handleKey}>
       {keyboardLetters.map((item) => (
         <Button
           variant="contained"

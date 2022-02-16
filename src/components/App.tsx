@@ -1,16 +1,18 @@
-import { useSelector } from "react-redux";
-import "./App.css";
-import { RootState } from "./redux/reducers";
-import Landing from "./components/LandingScreen";
-import Card from "@mui/material/Card";
-import GameScreen from "./components/GameScreen";
 import { Routes, Route, Navigate } from "react-router-dom";
-import ResultScreen from "./components/ResultScreen";
+import Card from "@mui/material/Card";
+
+import LandingScreen from "./layouts/LandingScreen";
+import GameScreen from "./layouts/GameScreen";
+import ResultScreen from "./layouts/ResultScreen";
+
+import useStoreSelector from "./hooks/useStoreSelector";
+
+import "./App.css";
 
 function App() {
   const {
     user: { name },
-  } = useSelector((state: RootState) => state);
+  } = useStoreSelector();
 
   return (
     <div className="App">
@@ -27,17 +29,14 @@ function App() {
         elevation={4}
       >
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<LandingScreen />} />
           {name && (
             <>
               <Route path="/game" element={<GameScreen />} />
               <Route path="/results" element={<ResultScreen />} />
             </>
           )}
-          <Route
-            path="*"
-            element={<Navigate to={"/"} />}
-          />
+          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </Card>
     </div>
